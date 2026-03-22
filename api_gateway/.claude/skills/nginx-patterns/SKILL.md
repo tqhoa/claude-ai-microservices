@@ -1,5 +1,5 @@
 ---
-name: mau-nginx
+name: nginx-patterns
 description: Mẫu cấu hình Nginx cho API Gateway.
 ---
 # Mẫu Nginx

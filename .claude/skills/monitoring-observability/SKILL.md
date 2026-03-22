@@ -1,5 +1,5 @@
 ---
-name: giam-sat-quan-sat
+name: monitoring-observability
 description: Monitoring và observability xuyên microservices bao gồm structured logging, metrics, health checks, và request tracing. Sử dụng khi thiết lập giám sát hoặc debug vấn đề cross-service.
 ---
 

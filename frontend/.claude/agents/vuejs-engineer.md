@@ -1,5 +1,5 @@
 ---
-name: ky-su-vuejs
+name: vuejs-engineer
 description: "Sử dụng tác nhân này khi xây dựng components, pages, stores, composables, hoặc tích hợp API cho Frontend Vue.js."
 tools: Read, Write, Edit, Bash, Glob, Grep
 model: sonnet

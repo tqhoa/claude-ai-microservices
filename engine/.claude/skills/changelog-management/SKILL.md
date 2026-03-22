@@ -1,5 +1,5 @@
 ---
-name: quan-ly-changelog
+name: changelog-management
 description: Quản lý CHANGELOG.md, lessons learned, và architecture decisions cho Backend. Sử dụng LUÔN khi bắt đầu phiên mới, sau khi sửa lỗi, hoặc khi thêm tính năng. Claude PHẢI đọc file này trước khi code.
 ---
 

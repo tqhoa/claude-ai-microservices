@@ -1,5 +1,5 @@
 ---
-name: mau-co-so-du-lieu
+name: database-patterns
 description: Mẫu quản lý cơ sở dữ liệu cho microservices bao gồm migration, connection pooling, backup, và Redis caching. Sử dụng khi thiết lập hoặc tối ưu database.
 ---
 

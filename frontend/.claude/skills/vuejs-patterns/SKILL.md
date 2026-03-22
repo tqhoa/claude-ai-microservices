@@ -1,5 +1,5 @@
 ---
-name: mau-vuejs
+name: vuejs-patterns
 description: Mẫu Vue.js cho Frontend microservice. Component patterns, API integration.
 ---
 # Mẫu Vue.js

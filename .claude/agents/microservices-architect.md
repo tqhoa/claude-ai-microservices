@@ -1,5 +1,5 @@
 ---
-name: kien-truc-su-microservices
+name: microservices-architect
 description: "Sử dụng tác nhân này khi thiết kế kiến trúc tổng thể microservices, quyết định ranh giới service, giao tiếp giữa services, hoặc giải quyết vấn đề cross-cutting."
 tools: Read, Write, Edit, Bash, Glob, Grep
 model: opus

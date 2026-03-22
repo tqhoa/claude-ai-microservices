@@ -1,5 +1,5 @@
 ---
-name: ky-su-gateway
+name: gateway-engineer
 description: "Sử dụng tác nhân này khi cấu hình Nginx reverse proxy, routing, CORS, rate limiting, SSL, hoặc tối ưu API Gateway."
 tools: Read, Write, Edit, Bash, Glob, Grep
 model: sonnet

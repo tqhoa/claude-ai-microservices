@@ -1,5 +1,5 @@
 ---
-name: mau-fastapi
+name: fastapi-patterns
 description: Mẫu FastAPI cho Backend microservice. Project structure, DI, error handling.
 ---
 # Mẫu FastAPI

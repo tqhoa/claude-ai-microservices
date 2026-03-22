@@ -1,5 +1,5 @@
 ---
-name: chien-luoc-kiem-thu
+name: testing-strategy
 description: Chiến lược kiểm thử cho microservices bao gồm test pyramid, contract testing, E2E, và test trong Docker. Sử dụng khi lập kế hoạch kiểm thử hoặc thiết lập test infrastructure.
 ---
 

@@ -1,5 +1,5 @@
 ---
-name: ky-su-bao-mat
+name: security-engineer
 description: "Sử dụng tác nhân này khi triển khai bảo mật xuyên suốt microservices: auth flow, CORS, SSL, rate limiting, và bảo mật dữ liệu."
 tools: Read, Write, Edit, Bash, Glob, Grep
 model: opus

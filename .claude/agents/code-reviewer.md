@@ -1,5 +1,5 @@
 ---
-name: nguoi-danh-gia-ma
+name: code-reviewer
 description: "Sử dụng tác nhân này khi đánh giá mã liên quan nhiều services, API contract changes, hoặc cross-cutting concerns."
 tools: Read, Write, Edit, Bash, Glob, Grep
 model: opus

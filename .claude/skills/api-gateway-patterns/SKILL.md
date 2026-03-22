@@ -1,5 +1,5 @@
 ---
-name: mau-api-gateway
+name: api-gateway-patterns
 description: Mẫu API Gateway với Nginx bao gồm reverse proxy, routing, CORS, SSL, rate limiting, và caching. Sử dụng khi cấu hình hoặc tối ưu API Gateway.
 ---
 

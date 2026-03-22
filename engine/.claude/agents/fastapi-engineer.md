@@ -1,5 +1,5 @@
 ---
-name: ky-su-fastapi
+name: fastapi-engineer
 description: "Sử dụng tác nhân này khi xây dựng API endpoints, business logic, database models, hoặc authentication cho Backend FastAPI."
 tools: Read, Write, Edit, Bash, Glob, Grep
 model: sonnet

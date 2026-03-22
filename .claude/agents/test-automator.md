@@ -1,5 +1,5 @@
 ---
-name: tu-dong-hoa-test
+name: test-automator
 description: "Sử dụng tác nhân này khi xây dựng chiến lược test xuyên suốt microservices: unit test mỗi service, integration test, và E2E test."
 tools: Read, Write, Edit, Bash, Glob, Grep
 model: sonnet

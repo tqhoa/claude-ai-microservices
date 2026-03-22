@@ -1,5 +1,5 @@
 ---
-name: ky-su-devops
+name: devops-engineer
 description: "Sử dụng tác nhân này khi cần Docker Compose orchestration, CI/CD pipeline cho multi-service, monitoring stack, hoặc deployment strategy."
 tools: Read, Write, Edit, Bash, Glob, Grep
 model: sonnet

@@ -1,5 +1,5 @@
 ---
-name: mau-microservices
+name: microservices-patterns
 description: Mẫu giao tiếp microservices, API contract design, error propagation, và data consistency. Sử dụng khi thiết kế giao tiếp giữa services hoặc giải quyết vấn đề cross-service.
 ---
 

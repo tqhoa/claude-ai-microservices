@@ -1,5 +1,5 @@
 ---
-name: mau-bao-mat
+name: security-patterns
 description: Mẫu bảo mật xuyên microservices bao gồm JWT auth flow, CORS policy, SSL, rate limiting, và input validation. Sử dụng khi thiết lập hoặc đánh giá bảo mật hệ thống.
 ---
 

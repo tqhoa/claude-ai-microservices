@@ -1,6 +1,6 @@
 # Mẫu Claude Code Cho Kiến Trúc Microservices
 
-Mẫu này cung cấp kiến trúc microservices hoàn chỉnh với 3 service: **API Gateway** (Nginx), **Backend** (FastAPI), và **Frontend** (Vue 3), được tối ưu cho Claude Code với tác nhân và kỹ năng chuyên biệt ở cả cấp hệ thống lẫn từng service.
+Mẫu này cung cấp kiến trúc microservices hoàn chỉnh với 3 service: **API Gateway** (Nginx), **Engine** (FastAPI), và **Frontend** (Vue 3), được tối ưu cho Claude Code với tác nhân và kỹ năng chuyên biệt ở cả cấp hệ thống lẫn từng service.
 
 ```
 .
@@ -28,7 +28,7 @@ Mẫu này cung cấp kiến trúc microservices hoàn chỉnh với 3 service: 
 │   ├── CLAUDE.md
 │   └── Dockerfile
 │
-├── backend/                           # SERVICE: FastAPI Async API
+├── engine/                            # SERVICE: FastAPI Async API
 │   ├── .claude/
 │   │   ├── agents/fastapi-engineer.md
 │   │   └── skills/fastapi-patterns/
@@ -53,7 +53,7 @@ Mẫu này cung cấp kiến trúc microservices hoàn chỉnh với 3 service: 
 
 ```
 ┌─────────────┐      ┌──────────────────┐      ┌─────────────────┐
-│  Frontend   │─────▶│   API Gateway    │─────▶│    Backend      │
+│  Frontend   │─────▶│   API Gateway    │─────▶│    Engine       │
 │  Vue 3 SPA  │      │  Nginx :80/443   │      │  FastAPI :8000  │
 │  TypeScript │      │  CORS, SSL, Rate │      │  Async, JWT     │
 │  Pinia      │      │  Limiting, Logs  │      │  SQLAlchemy     │
@@ -82,7 +82,7 @@ Mẫu này cung cấp kiến trúc microservices hoàn chỉnh với 3 service: 
 | Service | Tác nhân | Mô tả |
 |---------|----------|-------|
 | API Gateway | `kỹ-sư-gateway` | Nginx config, routing, CORS |
-| Backend | `kỹ-sư-fastapi` | FastAPI, SQLAlchemy, JWT |
+| Engine | `kỹ-sư-fastapi` | FastAPI, SQLAlchemy, JWT |
 | Frontend | `kỹ-sư-vuejs` | Vue 3, Pinia, TypeScript |
 
 ## Kỹ Năng (Skills)
@@ -105,7 +105,7 @@ Mỗi service có kỹ năng riêng tham chiếu lên kỹ năng gốc.
 | Thành phần | Công nghệ |
 |------------|-----------|
 | API Gateway | Nginx 1.27 |
-| Backend | Python 3.12, FastAPI, SQLAlchemy 2.0 async, Pydantic v2 |
+| Engine | Python 3.12, FastAPI, SQLAlchemy 2.0 async, Pydantic v2 |
 | Frontend | Vue 3, TypeScript, Pinia, TailwindCSS, Vite |
 | Database | PostgreSQL 17 |
 | Cache | Redis 7 |
@@ -127,7 +127,7 @@ cp .env.example .env
 docker compose up -d --build
 
 # Chạy migration
-docker compose exec backend alembic upgrade head
+docker compose exec engine alembic upgrade head
 
 # Truy cập
 # Frontend: http://localhost
@@ -149,15 +149,15 @@ claude
 
 | Quy tắc | Giải thích |
 |---------|-----------|
-| Frontend → Gateway → Backend | Frontend KHÔNG BAO GIỜ gọi Backend trực tiếp |
-| CORS chỉ ở Gateway | Backend không cần CORSMiddleware |
+| Frontend → Gateway → Engine | Frontend KHÔNG BAO GIỜ gọi Engine trực tiếp |
+| CORS chỉ ở Gateway | Engine không cần CORSMiddleware |
 | API versioning `/api/v1/` | Tất cả endpoints có version prefix |
 | Error format chuẩn | `{code, message, timestamp, path}` xuyên suốt |
 | JWT auth via Gateway | Gateway forward Authorization header |
-| Shared types | Frontend TS interfaces khớp Backend Pydantic schemas |
-| Request ID tracing | X-Request-ID từ Gateway → Backend → logs |
+| Shared types | Frontend TS interfaces khớp Engine Pydantic schemas |
+| Request ID tracing | X-Request-ID từ Gateway → Engine → logs |
 | Health checks | Mỗi service có `/health` endpoint |
 
 ## Giới Thiệu
 
-Mẫu Claude Code cho kiến trúc microservices hoàn chỉnh — API Gateway (Nginx) + Backend (FastAPI) + Frontend (Vue 3) với Docker Compose orchestration, tác nhân chuyên biệt, và kỹ năng chi tiết ở cả cấp hệ thống lẫn từng service. Phiên bản tiếng Việt.
+Mẫu Claude Code cho kiến trúc microservices hoàn chỉnh — API Gateway (Nginx) + Engine (FastAPI) + Frontend (Vue 3) với Docker Compose orchestration, tác nhân chuyên biệt, và kỹ năng chi tiết ở cả cấp hệ thống lẫn từng service. Phiên bản tiếng Việt.

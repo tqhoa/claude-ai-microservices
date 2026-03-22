@@ -1,0 +1,24 @@
+services:
+  gateway:
+    ports:
+      - "80:80"
+      - "443:443"
+
+  engine:
+    deploy:
+      replicas: 2
+      resources:
+        limits:
+          cpus: "1.0"
+          memory: 512M
+        reservations:
+          cpus: "0.25"
+          memory: 256M
+    environment:
+      LOG_LEVEL: WARNING
+
+  db:
+    deploy:
+      resources:
+        limits:
+          memory: 1G

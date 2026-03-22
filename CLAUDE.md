@@ -4,7 +4,7 @@
 
 ```
 ┌─────────────┐     ┌──────────────────┐     ┌─────────────────┐
-│  Frontend   │────▶│   API Gateway    │────▶│    Backend      │
+│  Frontend   │────▶│   API Gateway    │────▶│    Engine       │
 │  (Vue 3)    │     │ (Nginx/Traefik)  │     │   (FastAPI)     │
 │  Port 3000  │     │   Port 80/443    │     │   Port 8000     │
 └─────────────┘     └──────────────────┘     └────────┬────────┘
@@ -22,7 +22,7 @@
 ```
 .
 ├── api_gateway/          # Nginx reverse proxy + rate limiting + SSL
-├── backend/              # FastAPI async API + SQLAlchemy + Alembic
+├── engine/               # FastAPI async API + SQLAlchemy + Alembic
 ├── frontend/             # Vue 3 + Nuxt + Pinia + TailwindCSS
 ├── docker-compose.yml    # Orchestration tất cả services
 ├── docker-compose.dev.yml
@@ -36,7 +36,7 @@
 
 ### 1. Mặc Định Chế Độ Lập Kế Hoạch
 - Vào chế độ lập kế hoạch cho BẤT KỲ tác vụ nào ảnh hưởng nhiều hơn 1 service
-- Khi thay đổi API contract → lập kế hoạch cập nhật cả backend lẫn frontend
+- Khi thay đổi API contract → lập kế hoạch cập nhật cả engine lẫn frontend
 - Viết đặc tả chi tiết trước, đặc biệt cho giao tiếp giữa các service
 
 ### 2. Vòng Lặp Tự Cải Thiện
@@ -45,11 +45,11 @@
 
 ### 3. Xác Minh Trước Khi Hoàn Thành
 - Chạy `docker-compose up` và xác minh end-to-end flow
-- Test từ frontend → API gateway → backend → database
+- Test từ frontend → API gateway → engine → database
 - Kiểm tra CORS, auth token flow, error propagation
 
 ### 4. Kỹ Năng & Tác Nhân
-- Mỗi thư mục con (api_gateway, backend, frontend) có `.claude/` riêng
+- Mỗi thư mục con (api_gateway, engine, frontend) có `.claude/` riêng
 - Kỹ năng ở thư mục gốc `.claude/skills/` áp dụng cho cross-cutting concerns
 - Tải kỹ năng cụ thể cho từng service khi cần
 
@@ -72,9 +72,9 @@
 - CORS headers
 - Request/response logging
 - Health check endpoints
-- Load balancing (nếu nhiều backend instances)
+- Load balancing (nếu nhiều engine instances)
 
-### Backend (backend/)
+### Engine (engine/)
 - Python 3.12+ với FastAPI
 - `<script setup lang="ts">` tương đương: async/await xuyên suốt
 - SQLAlchemy 2.0 async + Alembic migrations
@@ -97,5 +97,5 @@
 - Biến môi trường qua `.env` files
 - Không hard-code URLs giữa services
 - API versioning (`/api/v1/`)
-- Shared types/contracts giữa frontend và backend
+- Shared types/contracts giữa frontend và engine
 - Structured logging JSON cho tất cả services

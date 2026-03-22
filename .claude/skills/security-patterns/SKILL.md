@@ -5,12 +5,12 @@ description: Mẫu bảo mật xuyên microservices bao gồm JWT auth flow, COR
 
 # Kỹ Năng Mẫu Bảo Mật
 
-Bảo mật xuyên suốt API Gateway + Backend + Frontend.
+Bảo mật xuyên suốt API Gateway + Engine + Frontend.
 
 ## JWT Auth Flow Hoàn Chỉnh
 
 ```python
-# backend/app/utils/security.py
+# engine/app/utils/security.py
 from jose import jwt, JWTError
 from passlib.context import CryptContext
 from datetime import datetime, timedelta
@@ -62,8 +62,8 @@ export const useAuthStore = defineStore('auth', () => {
 
 ## Phân Bổ Trách Nhiệm
 
-| Mối đe dọa | Gateway | Backend | Frontend |
-|-------------|---------|---------|----------|
+| Mối đe dọa | Gateway | Engine | Frontend |
+|-------------|---------|--------|----------|
 | DDoS | Rate limiting ✅ | — | — |
 | XSS | CSP header ✅ | — | Không v-html ✅ |
 | SQL Injection | — | ORM + Pydantic ✅ | — |

@@ -49,6 +49,14 @@ Claude PHẢI tham khảo file này trước khi đề xuất thay đổi kiến
 - **Lý do**: API trả về camelCase (chuẩn JSON), Python code vẫn dùng snake_case
 - **Hệ quả**: Frontend TypeScript interfaces khớp trực tiếp với API response
 
+### ADR-006: ACL Feature-Based Permissions (User → Role → Permission)
+- **Ngày**: 2026-03-22
+- **Trạng thái**: Chấp nhận
+- **Ngữ cảnh**: Cần hệ thống phân quyền linh hoạt cho features/resources
+- **Quyết định**: Many-to-many: User ↔ Role ↔ Permission. Permission codename format `resource.action`. Dependency factory `require_permission(codename)` check ở route level. Superuser bypass tất cả. Roles và permissions loaded eagerly (`lazy="selectin"`) để check in-memory
+- **Lý do**: Linh hoạt hơn role-based thuần (có thể gán permission trực tiếp cho role), dễ mở rộng khi thêm resources mới, codename format scannable và greppable
+- **Hệ quả**: Cần seed default roles/permissions khi deploy. Permission check O(roles × permissions) nhưng thường rất nhỏ. Frontend cần biết user permissions để ẩn/hiện UI
+
 ### ADR-005: Structured Logging với structlog
 - **Trạng thái**: Chấp nhận
 - **Ngữ cảnh**: Cần logging nhất quán để debug trong microservices

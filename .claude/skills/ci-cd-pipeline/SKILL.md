@@ -27,7 +27,7 @@ jobs:
   detect:
     runs-on: ubuntu-latest
     outputs:
-      backend: ${{ steps.f.outputs.backend }}
+      engine: ${{ steps.f.outputs.engine }}
       frontend: ${{ steps.f.outputs.frontend }}
       gateway: ${{ steps.f.outputs.gateway }}
       infra: ${{ steps.f.outputs.infra }}
@@ -37,14 +37,14 @@ jobs:
         id: f
         with:
           filters: |
-            backend: ['backend/**']
+            engine: ['engine/**']
             frontend: ['frontend/**']
             gateway: ['api_gateway/**']
             infra: ['docker-compose*.yml', '.github/**']
 
-  backend-test:
+  engine-test:
     needs: detect
-    if: needs.detect.outputs.backend == 'true' || needs.detect.outputs.infra == 'true'
+    if: needs.detect.outputs.engine == 'true' || needs.detect.outputs.infra == 'true'
     runs-on: ubuntu-latest
     services:
       postgres:
@@ -53,7 +53,7 @@ jobs:
         ports: ['5432:5432']
         options: --health-cmd pg_isready
     defaults:
-      run: { working-directory: backend }
+      run: { working-directory: engine }
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-python@v5
@@ -83,13 +83,13 @@ jobs:
       - run: pnpm build
 
   e2e:
-    needs: [backend-test, frontend-test]
+    needs: [engine-test, frontend-test]
     if: always() && !failure()
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
       - run: docker compose up -d --build --wait
-      - run: docker compose exec -T backend alembic upgrade head
+      - run: docker compose exec -T engine alembic upgrade head
       - uses: actions/setup-node@v4
         with: { node-version: '22' }
       - run: npx playwright install --with-deps chromium

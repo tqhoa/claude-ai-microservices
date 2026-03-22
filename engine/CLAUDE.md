@@ -1,7 +1,7 @@
-# CLAUDE.md — Backend (FastAPI)
+# CLAUDE.md — Engine (FastAPI)
 
 ## Vai Trò
-Backend API xử lý toàn bộ business logic, authentication, data access, và background tasks.
+Engine API xử lý toàn bộ business logic, authentication, data access, và background tasks.
 
 ## Quy Tắc
 - Python 3.12+ với async/await xuyên suốt
@@ -17,7 +17,7 @@ Backend API xử lý toàn bộ business logic, authentication, data access, và
 
 ## Cấu Trúc
 ```
-backend/
+engine/
 ├── app/
 │   ├── __init__.py
 │   ├── main.py              # FastAPI app factory, lifespan, middleware
@@ -71,7 +71,7 @@ Claude PHẢI thực hiện các bước này:
 
 ### Files:
 ```
-backend/
+engine/
 ├── CHANGELOG.md          # Lịch sử thay đổi theo phiên bản
 └── tasks/
     ├── lessons.md        # Bài học từ lỗi (bộ nhớ Claude)
@@ -81,12 +81,12 @@ backend/
 ## Lệnh Phát Triển
 ```bash
 # Trong Docker
-docker compose exec backend pytest --cov=app
-docker compose exec backend alembic upgrade head
-docker compose exec backend alembic revision --autogenerate -m "description"
+docker compose exec engine pytest --cov=app
+docker compose exec engine alembic upgrade head
+docker compose exec engine alembic revision --autogenerate -m "description"
 
 # Local
-cd backend
+cd engine
 uv sync
 uv run pytest
 uv run ruff check .

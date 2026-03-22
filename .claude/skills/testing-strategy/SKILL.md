@@ -19,9 +19,9 @@ Chiến lược test đa tầng cho hệ thống microservices.
 
 ## Test Mỗi Service
 
-### Backend (pytest)
+### Engine (pytest)
 ```bash
-cd backend
+cd engine
 pytest tests/unit/           # Logic thuần, nhanh
 pytest tests/integration/    # Cần DB (Docker service)
 pytest tests/api/            # Endpoint tests
@@ -47,7 +47,7 @@ docker compose up -d
 ## Contract Testing
 
 ```typescript
-// Đảm bảo Frontend types khớp Backend schemas
+// Đảm bảo Frontend types khớp Engine schemas
 // frontend/src/types/user.ts
 interface User {
   id: number
@@ -57,7 +57,7 @@ interface User {
   createdAt: string
 }
 
-// So sánh với backend/app/schemas/user.py
+// So sánh với engine/app/schemas/user.py
 // class UserResponse(BaseModel):
 //     id: int
 //     email: str
@@ -66,13 +66,13 @@ interface User {
 //     created_at: datetime
 ```
 
-Giải pháp: Backend dùng `model_config = ConfigDict(alias_generator=to_camel, populate_by_name=True)` để tự động chuyển đổi.
+Giải pháp: Engine dùng `model_config = ConfigDict(alias_generator=to_camel, populate_by_name=True)` để tự động chuyển đổi.
 
 ## Bảng Kiểm Tra
-- [ ] Backend: unit + integration + API tests (> 80% coverage)
+- [ ] Engine: unit + integration + API tests (> 80% coverage)
 - [ ] Frontend: component + composable tests (> 80% coverage)
 - [ ] Gateway: routing + CORS + rate limit tests
 - [ ] E2E: 5-10 luồng quan trọng nhất
-- [ ] Contract: Frontend types khớp Backend schemas
+- [ ] Contract: Frontend types khớp Engine schemas
 - [ ] CI: tất cả tests chạy tự động
 - [ ] Docker test environment reproducible

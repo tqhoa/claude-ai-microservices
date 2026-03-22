@@ -56,8 +56,8 @@ http {
     limit_req_zone $binary_remote_addr zone=api_upload:10m rate=10r/m;
 
     # Upstream backends
-    upstream backend {
-        server backend:8000;
+    upstream engine {
+        server engine:8000;
         keepalive 32;
     }
 
@@ -82,7 +82,7 @@ http {
             limit_req zone=api_auth burst=3 nodelay;
             include /etc/nginx/conf.d/proxy-common.conf;
             include /etc/nginx/conf.d/cors.conf;
-            proxy_pass http://backend;
+            proxy_pass http://engine;
         }
 
         # Upload endpoints — rate limit riêng
@@ -91,7 +91,7 @@ http {
             client_max_body_size 50m;
             include /etc/nginx/conf.d/proxy-common.conf;
             include /etc/nginx/conf.d/cors.conf;
-            proxy_pass http://backend;
+            proxy_pass http://engine;
         }
 
         # General API — rate limit chung
@@ -99,12 +99,12 @@ http {
             limit_req zone=api_general burst=50 nodelay;
             include /etc/nginx/conf.d/proxy-common.conf;
             include /etc/nginx/conf.d/cors.conf;
-            proxy_pass http://backend;
+            proxy_pass http://engine;
         }
 
         # WebSocket
         location /ws/ {
-            proxy_pass http://backend;
+            proxy_pass http://engine;
             proxy_http_version 1.1;
             proxy_set_header Upgrade $http_upgrade;
             proxy_set_header Connection "upgrade";
@@ -163,7 +163,7 @@ add_header 'Access-Control-Allow-Credentials' 'true';
 
 ## Bảng Kiểm Tra
 - [ ] Reverse proxy cho tất cả API routes
-- [ ] CORS chỉ ở Gateway (Backend không có CORSMiddleware)
+- [ ] CORS chỉ ở Gateway (Engine không có CORSMiddleware)
 - [ ] Rate limiting: 5/phút cho auth, 30/giây cho API chung
 - [ ] Security headers đầy đủ
 - [ ] Gzip compression enabled

@@ -11,7 +11,7 @@ Structured logging và monitoring nhất quán xuyên tất cả services.
 
 ```
 Client → Gateway (tạo X-Request-ID: uuid)
-    → Backend (log với request_id)
+    → Engine (log với request_id)
     → Response (header X-Request-ID)
     → Frontend (log errors với request_id)
 ```
@@ -23,7 +23,7 @@ proxy_set_header X-Request-ID $request_id;
 ```
 
 ```python
-# Backend: middleware log request ID
+# Engine: middleware log request ID
 @app.middleware("http")
 async def request_logging(request: Request, call_next):
     request_id = request.headers.get("X-Request-ID", str(uuid4()))
@@ -45,12 +45,12 @@ apiClient.interceptors.response.use(null, (error) => {
 ## Health Checks Chuẩn Hóa
 
 ```python
-# Backend /health
+# Engine /health
 @router.get("/health")
 async def health():
-    return {"status": "healthy", "service": "backend", "version": "1.0.0"}
+    return {"status": "healthy", "service": "engine", "version": "1.0.0"}
 
-# Backend /ready (kiểm tra dependencies)
+# Engine /ready (kiểm tra dependencies)
 @router.get("/ready")
 async def ready(db: AsyncSession = Depends(get_db)):
     try:
@@ -67,7 +67,7 @@ Tất cả services output JSON logs:
 {
   "timestamp": "2025-01-15T10:30:00Z",
   "level": "info",
-  "service": "backend",
+  "service": "engine",
   "request_id": "abc-123",
   "event": "request_completed",
   "method": "POST",

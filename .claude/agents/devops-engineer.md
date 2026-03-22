@@ -21,11 +21,11 @@ services:
     build: ./api_gateway
     ports: ["80:80", "443:443"]
     depends_on:
-      backend: { condition: service_healthy }
+      engine: { condition: service_healthy }
       frontend: { condition: service_started }
 
-  backend:
-    build: ./backend
+  engine:
+    build: ./engine
     environment:
       DATABASE_URL: postgresql+asyncpg://postgres:postgres@db:5432/appdb
       REDIS_URL: redis://redis:6379/0
@@ -69,12 +69,12 @@ volumes:
 ```yaml
 # docker-compose.dev.yml (override cho development)
 services:
-  backend:
+  engine:
     build:
-      context: ./backend
+      context: ./engine
       target: development
     volumes:
-      - ./backend/app:/app/app
+      - ./engine/app:/app/app
     command: uvicorn app.main:app --host 0.0.0.0 --port 8000 --reload
 
   frontend:
@@ -99,7 +99,7 @@ jobs:
   detect-changes:
     runs-on: ubuntu-latest
     outputs:
-      backend: ${{ steps.filter.outputs.backend }}
+      engine: ${{ steps.filter.outputs.engine }}
       frontend: ${{ steps.filter.outputs.frontend }}
       gateway: ${{ steps.filter.outputs.gateway }}
     steps:
@@ -108,13 +108,13 @@ jobs:
         id: filter
         with:
           filters: |
-            backend: ['backend/**']
+            engine: ['engine/**']
             frontend: ['frontend/**']
             gateway: ['api_gateway/**']
 
-  test-backend:
+  test-engine:
     needs: detect-changes
-    if: needs.detect-changes.outputs.backend == 'true'
+    if: needs.detect-changes.outputs.engine == 'true'
     runs-on: ubuntu-latest
     services:
       postgres:
@@ -126,7 +126,7 @@ jobs:
       - uses: actions/checkout@v4
       - uses: actions/setup-python@v5
         with: { python-version: '3.12' }
-      - working-directory: backend
+      - working-directory: engine
         run: |
           pip install uv && uv sync
           uv run ruff check .
@@ -151,13 +151,13 @@ jobs:
           pnpm build
 
   e2e-test:
-    needs: [test-backend, test-frontend]
+    needs: [test-engine, test-frontend]
     if: always() && !failure()
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
       - run: docker compose -f docker-compose.yml up -d --build
-      - run: docker compose exec backend alembic upgrade head
+      - run: docker compose exec engine alembic upgrade head
       - run: npx playwright test
       - run: docker compose down
 ```
@@ -168,17 +168,17 @@ Lệnh phát triển hàng ngày:
 docker compose -f docker-compose.yml -f docker-compose.dev.yml up -d
 
 # Xem log theo service
-docker compose logs -f backend
+docker compose logs -f engine
 docker compose logs -f gateway
 
 # Chạy migration
-docker compose exec backend alembic upgrade head
+docker compose exec engine alembic upgrade head
 
-# Chạy test backend
-docker compose exec backend pytest
+# Chạy test engine
+docker compose exec engine pytest
 
 # Rebuild 1 service
-docker compose up -d --build backend
+docker compose up -d --build engine
 
 # Dọn dẹp
 docker compose down -v

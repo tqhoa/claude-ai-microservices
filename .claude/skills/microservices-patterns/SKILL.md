@@ -5,14 +5,14 @@ description: Mẫu giao tiếp microservices, API contract design, error propaga
 
 # Kỹ Năng Mẫu Microservices
 
-Mẫu giao tiếp và thiết kế cho hệ thống API Gateway + Backend + Frontend.
+Mẫu giao tiếp và thiết kế cho hệ thống API Gateway + Engine + Frontend.
 
 ---
 
 ## API Contract Chuẩn Hóa
 
 ```typescript
-// shared/types/api.ts — Types dùng chung giữa Frontend và Backend
+// shared/types/api.ts — Types dùng chung giữa Frontend và Engine
 
 // Response wrapper chuẩn
 interface ApiResponse<T> {
@@ -39,7 +39,7 @@ interface ApiError {
 ```
 
 ```python
-# backend/app/schemas/common.py — Tương ứng ở Backend
+# engine/app/schemas/common.py — Tương ứng ở Engine
 from pydantic import BaseModel
 from datetime import datetime
 
@@ -66,7 +66,7 @@ class PaginationMeta(BaseModel):
 ## Error Propagation
 
 ```
-Backend Exception
+Engine Exception
     │
     ▼
 FastAPI exception_handler → HTTP Response (chuẩn ErrorResponse)
@@ -120,10 +120,10 @@ apiClient.interceptors.response.use(
 
 | Quy tắc | Giải thích |
 |---------|-----------|
-| Frontend → Gateway → Backend | Frontend KHÔNG BAO GIỜ gọi Backend trực tiếp |
+| Frontend → Gateway → Engine | Frontend KHÔNG BAO GIỜ gọi Engine trực tiếp |
 | Gateway chỉ routing + security | Không business logic ở Gateway |
-| Backend là nguồn sự thật | Auth, validation, business logic đều ở Backend |
-| Shared types | Frontend TypeScript types phải khớp Backend Pydantic schemas |
+| Engine là nguồn sự thật | Auth, validation, business logic đều ở Engine |
+| Shared types | Frontend TypeScript types phải khớp Engine Pydantic schemas |
 | API versioning | Tất cả endpoints bắt đầu `/api/v1/` |
 | Health checks | Mỗi service có `/health` endpoint |
 
@@ -137,14 +137,14 @@ DB_PASSWORD=secure_password_here
 SECRET_KEY=jwt_secret_key_here
 REDIS_URL=redis://redis:6379/0
 
-# Backend đọc qua Docker Compose environment:
+# Engine đọc qua Docker Compose environment:
 # DATABASE_URL=postgresql+asyncpg://postgres:${DB_PASSWORD}@db:5432/appdb
 
 # Frontend đọc qua build args:
 # VITE_API_URL=/api  (relative, Gateway sẽ proxy)
 
 # Gateway đọc qua nginx.conf (hardcoded service names trong Docker network)
-# proxy_pass http://backend:8000;
+# proxy_pass http://engine:8000;
 ```
 
 ---
@@ -152,9 +152,9 @@ REDIS_URL=redis://redis:6379/0
 ## Bảng Kiểm Tra
 - [ ] API response format nhất quán (ApiResponse<T> wrapper)
 - [ ] Error format nhất quán (ErrorResponse)
-- [ ] Frontend types khớp Backend schemas
+- [ ] Frontend types khớp Engine schemas
 - [ ] Tất cả endpoints versioned (/api/v1/)
-- [ ] Frontend không gọi Backend trực tiếp
+- [ ] Frontend không gọi Engine trực tiếp
 - [ ] Health checks cho mọi service
 - [ ] Environment variables qua .env file
 - [ ] Docker Compose dependencies đúng (depends_on + healthcheck)

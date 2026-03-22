@@ -23,5 +23,5 @@ Kỹ năng ở cấp gốc dành cho cross-cutting concerns áp dụng cho toàn
 ### Kỹ Năng Theo Service
 Mỗi service có kỹ năng riêng trong thư mục `.claude/skills/` của nó:
 - `api_gateway/.claude/skills/` — Nginx, rate limiting, load balancing
-- `backend/.claude/skills/` — FastAPI, SQLAlchemy, async patterns
+- `engine/.claude/skills/` — FastAPI, SQLAlchemy, async patterns
 - `frontend/.claude/skills/` — Vue.js, Pinia, component patterns

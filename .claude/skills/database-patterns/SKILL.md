@@ -11,13 +11,13 @@ Quản lý PostgreSQL + Redis cho hệ thống microservices.
 
 ```bash
 # Chạy migration khi khởi động service (trong CI/CD hoặc init container)
-docker compose exec backend alembic upgrade head
+docker compose exec engine alembic upgrade head
 
 # Tạo migration mới
-docker compose exec backend alembic revision --autogenerate -m "add_users_table"
+docker compose exec engine alembic revision --autogenerate -m "add_users_table"
 
 # Rollback
-docker compose exec backend alembic downgrade -1
+docker compose exec engine alembic downgrade -1
 ```
 
 ## Connection Pool Tuning
@@ -64,7 +64,7 @@ db:
     POSTGRES_PASSWORD: ${DB_PASSWORD}
   volumes:
     - pgdata:/var/lib/postgresql/data
-    - ./backend/scripts/init.sql:/docker-entrypoint-initdb.d/init.sql
+    - ./engine/scripts/init.sql:/docker-entrypoint-initdb.d/init.sql
   healthcheck:
     test: ["CMD-SHELL", "pg_isready -U postgres"]
     interval: 5s

@@ -23,7 +23,7 @@ Orchestration microservices với Docker Compose.
 │   ├── Dockerfile
 │   ├── nginx.conf
 │   └── nginx.dev.conf
-├── backend/
+├── engine/
 │   └── Dockerfile              # Multi-stage: builder → development → production
 └── frontend/
     └── Dockerfile              # Multi-stage: builder → development → production(nginx)
@@ -31,10 +31,10 @@ Orchestration microservices với Docker Compose.
 
 ---
 
-## Backend Dockerfile (Multi-Target)
+## Engine Dockerfile (Multi-Target)
 
 ```dockerfile
-# backend/Dockerfile
+# engine/Dockerfile
 FROM python:3.12-slim AS base
 ENV PYTHONDONTWRITEBYTECODE=1 PYTHONUNBUFFERED=1
 WORKDIR /app
@@ -123,13 +123,13 @@ services:
     build: ./api_gateway
     ports: ["${GATEWAY_PORT:-80}:80"]
     depends_on:
-      backend: { condition: service_healthy }
+      engine: { condition: service_healthy }
     networks: [frontend-net, backend-net]
     restart: unless-stopped
 
-  backend:
+  engine:
     build:
-      context: ./backend
+      context: ./engine
       target: production
     environment:
       DATABASE_URL: postgresql+asyncpg://postgres:${DB_PASSWORD}@db:5432/${DB_NAME}
@@ -197,13 +197,13 @@ docker compose -f docker-compose.yml -f docker-compose.dev.yml up -d
 docker compose -f docker-compose.yml -f docker-compose.prod.yml up -d --build
 
 # Chạy migration
-docker compose exec backend alembic upgrade head
+docker compose exec engine alembic upgrade head
 
 # Xem log
-docker compose logs -f --tail=100 backend gateway
+docker compose logs -f --tail=100 engine gateway
 
-# Scale backend
-docker compose -f docker-compose.yml -f docker-compose.prod.yml up -d --scale backend=3
+# Scale engine
+docker compose -f docker-compose.yml -f docker-compose.prod.yml up -d --scale engine=3
 
 # Dọn dẹp
 docker compose down -v --rmi local

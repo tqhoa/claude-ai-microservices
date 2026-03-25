@@ -19,7 +19,9 @@
       "Bash(ls:*)",
       "Bash(grep:*)",
       "Bash(git:*)",
-      "Bash(cat:*)"
+      "Bash(cat:*)",
+      "mcp__plugin_telegram_telegram__reply",
+      "Bash(open:*)"
     ]
   }
 }
